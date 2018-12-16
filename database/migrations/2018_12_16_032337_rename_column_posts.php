@@ -14,7 +14,7 @@ class RenameColumnPosts extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->renameColumn('postsID', 'id');
+            $table->renameColumn('postsID', 'postID');
         });
     }
 
@@ -26,7 +26,7 @@ class RenameColumnPosts extends Migration
     public function down()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->renameColumn('id', 'postsID');
+            $table->renameColumn('postID', 'postsID');
         });
     }
 }

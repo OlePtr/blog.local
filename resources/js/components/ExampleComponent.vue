@@ -14,7 +14,7 @@
     </div>
 </template>
 
-<!--suppress JSAnnotator -->
+
 <script>
     export default {
         mounted() {
