@@ -1,73 +1,122 @@
 @extends('layouts.master')
 
 @section('title')
-    Welcome Laravel Blog Tutorial
+   Blog
 @endsection
 
 @section('content')
-    <main role="main" class="container"  style="margin-top: 5px">
+    {{--<main role="main" class="container" style="margin-top: 5px">--}}
 
-        <div class="row">
+        <div class="container-fluid">
+        <div class="row wrapper">
+            <div class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Post <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">All News</a>
+                    </li>
+                    @if($category)
+                        {{dump($category)}}
+                        @foreach($category as $item)
+                            <li class="nav-item">
 
-            <div class="col-sm-8 blog-main">
+                                <ol class="list-unstyled">
+                                    <li>
+                                        {{--<a class="nav-link" href="#">{{$item->category}}</a>--}}
+                                        {{--<a href="{{ route('post.read', ['post_id' => $archive->postid]) }}">{!! \Illuminate\Support\Str::words($archive->title, 6, '...') !!}</a>--}}
+                                        <a href="{{ route('index', ['id' => $item->categoryID]) }}">{{$item->category, 6, '...'}}</a>
+                                    </li>
+                                </ol>
 
-                <div class="blog-post">
-                    <h2 class="blog-post-title">Posts One</h2>
-                    <p class="blog-post-meta"><small><i>December 23, 2013 by <a href="#">Jeremy</a></i></small></p>
+                            </li>
 
-                    <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
-                    <blockquote>
-                        <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong>
-                            ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula
-                            ut id elit... <a href="" class="btn btn-primary btn-sm">Learn more</a> </p>
-                    </blockquote>
-                </div><!-- /.blog-post -->
+                            <tr>
+                                {{--<td>{{ $item->category }}</td>--}}
+                                <td>
+                                    {{--<a href="{{ route('post.detail', ['id' => $item->categoryID]) }}">Details</a>--}}
+                                </td>
 
-                <div class="blog-post">
-                    <h2 class="blog-post-title">Post Two</h2>
-                    <p class="blog-post-meta"><small><i>December 14, 2013 by <a href="#">Evans</a></i></small></p>
+                            </tr>
+                        @endforeach
+                    @endif
+                </ul>
+            </div>
+            {{--<main role="main" class="col-sm-8 ml-sm-auto col-md-5 pt-3">--}}
+            {{--<div class="blog-main col-sm-5 ml-sm-auto col-md-10 pt-3">--}}
+            <div class="blog-main col-sm-6 col-md-6 pt-3">
+                @if($posts)
 
-                    <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-                        Aenean lacinia bibendum nulla sed consectetur. Etiam porta
-                        euismod. Fusce dapibus... <a href="" class="btn btn-primary btn-sm">Learn more</a> </p>
-                </div><!-- /.blog-post -->
+                @foreach($posts as $post)
+                    <div class="card">
+                        <div>
+                            {{--{{dd($post)}}--}}
+                            <h2 class="blog-post-title">{{ $post->title }}</h2>
+                            <p class="blog-post-meta">
+                                <small><i>{{ Carbon\Carbon::parse($post->published_at)->format('d-m-Y')  }} by <a
+                                                href="#">{{ $post->authorNAME }}</a></i></small>
+                            </p>
 
+                        </div>
+
+                        {{--{{ dump(Storage::url($post->image)) }}--}}
+                        <div class="card-img-top product-image"
+
+                             style="@if ($post->image)background-image: url({{ Storage::url($post->image) }})@endif">
+
+                        </div>
+                        <div>
+                            <p>{!! \Illuminate\Support\Str::words($post->description, 30, '...') !!}</p>
+                            <blockquote>
+                                <p>
+                                    {{--route('post.read', ['post_id' => $post->postid])--}}
+                                    {{--route('post.read', ['post_id' => $post->postid])--}}
+                                    {{--route (('/post/read/{post_id}', 'PostController@getFullPost')->name('post.read'))--}}
+
+                                    <a href="{{
+
+                                    route('post.read', ['post_id' => $post->postid])
+
+
+                                    }}"
+                                       class="btn btn-primary btn-sm">Learn more</a></p>
+                            </blockquote>
+                        </div>
+
+                    </div>
+                @endforeach
+                @endif
                 <nav class="blog-pagination">
-                    <a class="btn btn-outline-primary" href="#">Older</a>
-                    <a class="btn btn-outline-secondary disabled" href="#">Newer</a>
+                    {{ $posts->links() }}
                 </nav>
 
-            </div><!-- /.blog-main -->
+            <!-- /.blog-main -->
 
-            <aside class="col-sm-3 ml-sm-auto blog-sidebar">
+            <!-- /.blog-sidebar -->
+            </div>
+            <div class="col-sm-4  blog-sidebar">
                 <div class="sidebar-module">
                     <h4>Latest Posts</h4>
-                    <ol class="list-unstyled">
-                        <li><a href="#">March 2017</a></li>
-                        <li><a href="#">February 2017</a></li>
-                        <li><a href="#">January 2017</a></li>
-                        <li><a href="#">December 2013</a></li>
-                        <li><a href="#">November 2013</a></li>
-                        <li><a href="#">October 2013</a></li>
-                        <li><a href="#">September 2013</a></li>
-                        <li><a href="#">August 2013</a></li>
-                        <li><a href="#">July 2013</a></li>
-                        <li><a href="#">June 2013</a></li>
-                        <li><a href="#">May 2013</a></li>
-                        <li><a href="#">April 2013</a></li>
-                    </ol>
+                    @foreach($archives as $archive)
+                        <ol class="list-unstyled">
+                            <li>
+                                {{--<a href="{{ route('post.read', ['post_id' => $archive->postid]) }}">{!! \Illuminate\Support\Str::words($archive->title, 6, '...') !!}</a>--}}
+                                <a href="{{ route('post.read', ['post_id' => $archive->postid]) }}">{{$archive->title, 6, '...'}}</a>
+                            </li>
+                        </ol>
+                    @endforeach
                 </div>
-                <div class="sidebar-module">
-                    <h4>Elsewhere</h4>
-                    <ol class="list-unstyled">
-                        <li><a href="#">GitHub</a></li>
-                        <li><a href="#">Twitter</a></li>
-                        <li><a href="#">Facebook</a></li>
-                    </ol>
-                </div>
-            </aside><!-- /.blog-sidebar -->
+            </div>
 
-        </div><!-- /.row -->
+        </div>
+            <!-- /.row -->
+
+        </div>
+
+
 
     </main><!-- /.container -->
 @endsection
