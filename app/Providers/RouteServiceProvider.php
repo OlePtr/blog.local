@@ -21,11 +21,34 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
+//    public function boot()
+//    {
+//        //
+//
+//        parent::boot();
+//    }
+
+//    public function boot(Router $router)
+//    {
+//        parent::boot($router);
+//
+//        \Route::bind('posts', function($postURL) {
+//            return \App\Post::where('postURL', $postURL)->firstOrFail();
+//        });
+//    }
+
     public function boot()
     {
-        //
-
         parent::boot();
+
+//        Route::bind
+        Route::bind('cat_url', function($val) {
+//            dump($val);
+//            return \App\Post::published()->firstOrFail($pURL);
+//            dd(\App\Category::where('categoryURL',$val)->first);
+
+            return \App\Category::where('categoryURL',$val)->first() ?? abort(404);
+        });
     }
 
     /**

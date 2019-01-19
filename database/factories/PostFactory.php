@@ -25,7 +25,7 @@ $factory->define(App\Post::class, function (Faker $faker) {
     'image'=>$faker->numberBetween(1,10),
     'publishedDATA'=>now(),
     'description'=> $faker->sentence(3),
-    //'postURL'=>$faker->userName,
+    'postURL'=>$faker->str_random(5),
 
     ];
 });

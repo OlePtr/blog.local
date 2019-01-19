@@ -16,7 +16,7 @@
 <style>
     .product-image {
         background: #cecece center / cover;
-        height:200px;
+        height: 200px;
         width: 200px;
     }
 
